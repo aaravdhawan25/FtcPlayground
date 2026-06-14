@@ -2,14 +2,13 @@ package opMode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import Robot.MyRobot;
-import Utils.MyTelem;
+import org.firstinspires.ftc.teamcode.Robot.MyRobot;
+import org.firstinspires.ftc.teamcode.Utils.MyTelem;
 
 @TeleOp(name = "Loop Time Tele", group = " ")
 
-public class LoopTimeTeleOp extends LinearOpMode {
+public class LoopTimeTester extends LinearOpMode {
 
 
 

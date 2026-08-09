@@ -24,7 +24,7 @@ public class TeleBlue extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MyRobot robot = new MyRobot(hardwareMap, telemetry, "BLUE");
+        MyRobot robot = new MyRobot(hardwareMap, telemetry, "BLUE", false);
         GamepadEx gp1 = new GamepadEx(gamepad1);
         GamepadEx gp2 = new GamepadEx(gamepad2);
 
@@ -79,6 +79,11 @@ public class TeleBlue extends LinearOpMode {
 
         if(isStarted()){
             robot.follower.startTeleopDrive();
+        }
+
+        if (isStopRequested()){
+            robot.stop();
+            return;
         }
 
         while (opModeIsActive()){

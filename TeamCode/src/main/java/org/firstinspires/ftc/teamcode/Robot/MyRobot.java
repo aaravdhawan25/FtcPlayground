@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Robot;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Robot.Subsystems.Blocker;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.LLCam;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.Utils.CloseAutoPoseData;
 import org.firstinspires.ftc.teamcode.Utils.Constants.CameraConstants;
 import org.firstinspires.ftc.teamcode.Utils.MyTelem;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
@@ -31,9 +33,14 @@ public class MyRobot {
 
     double lastTime = 0;
 
+    public boolean holding = false;
+
     public LLCam cam;
 
-    String color;
+
+    public String color;
+
+    public static Pose currentPose = new Pose(0,0,0);
     public DcMotorEx shooterOne, shooterTwo, intakeMotor, transferMotor;
 
     public Limelight3A limelight3A;
@@ -48,9 +55,12 @@ public class MyRobot {
 
     public Follower follower;
 
+    public boolean isAuto = false;
 
 
-    public MyRobot(HardwareMap map, Telemetry tel, String color){
+
+    public MyRobot(HardwareMap map, Telemetry tel, String color, boolean isAuto){
+        this.isAuto = isAuto;
         this.color = color;
         hubs = map.getAll(LynxModule.class);
         for(LynxModule hub : hubs){
@@ -75,10 +85,23 @@ public class MyRobot {
         CommandScheduler.getInstance().reset();
         CommandScheduler.getInstance().registerSubsystem(shooter, intake, blocker, cam);
 
+        if (isAuto){
+             follower.setStartingPose(CloseAutoPoseData.mirror(CloseAutoPoseData.START_POSE, color));
+        }
+
+        if (!isAuto){
+            if (currentPose != null){
+                follower.setStartingPose(currentPose);
+            }
+        }
+
+
+
+
     }
 
     public void setTeleOpMovementVectors(double forward, double strafe, double turn, boolean robotCentric){
-        if (!CameraConstants.isAligning){
+        if (!CameraConstants.isAligning && !holding){
             follower.setTeleOpMovementVectors(forward, strafe, turn, robotCentric);
         }
     }
@@ -96,9 +119,20 @@ public class MyRobot {
         lastTime = loopTime.milliseconds();
     }
 
-    public void update(){
+    public void stop(){
+        Pose pose = follower.getPose();
+        CommandScheduler.getInstance().reset();
+        MyRobot.currentPose = pose;
+    }
 
+    public void update(){
         CommandScheduler.getInstance().run();
+        follower.update();
+
+        if (!holding){
+            follower.updatePose();
+            currentPose = follower.poseUpdater.getPose();
+        }
 
         double currentTimeMillis = loopTime.milliseconds();
         double loopTimeMs = currentTimeMillis - lastTime;
@@ -117,6 +151,19 @@ public class MyRobot {
             hub.clearBulkCache();
         }
 
+
+    }
+
+    public void holding(){
+        follower.holdPoint(currentPose);
+        holding = true;
+    }
+
+    public void stopHolding(){
+        follower.breakFollowing();
+        follower.startTeleopDrive();
+        follower.setMaxPower(1);
+        holding = false;
     }
 
     public void resetRuntime(){

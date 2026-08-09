@@ -86,7 +86,10 @@ public class LLCam implements Subsystem {
         if (tan == 0) {
             return 0;
         }
-        return (CameraConstants.goalDY / tan);
+
+        CameraConstants.distanceToGoalLL = (CameraConstants.goalDY / tan);
+
+        return CameraConstants.distanceToGoalLL;
 
     }
 

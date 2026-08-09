@@ -46,7 +46,7 @@ public class CloseAuto extends OpMode {
     @Override
     public void init() {
         dashboardPoseTracker = new DashboardPoseTracker(robot.follower.poseUpdater);
-        robot = new MyRobot(hardwareMap, telemetry, color);
+        robot = new MyRobot(hardwareMap, telemetry, color, true);
         paths = new CloseAutoPaths(robot.follower, color);
         CommandScheduler.getInstance().schedule(
                 new BlockerCommand(robot, Blocker.BlockerState.CLOSED)
@@ -83,6 +83,7 @@ public class CloseAuto extends OpMode {
     public void loop() {
         robot.update();
         dashboardPoseTracker.update();
+        Drawing.drawPath(robot.follower.getCurrentPath(), "#2027AB");
         Drawing.drawPoseHistory(dashboardPoseTracker, "#4CAF50");
         Drawing.drawRobot(robot.follower.poseUpdater.getPose(), "#4CAF50");
         Drawing.sendPacket();
@@ -95,6 +96,8 @@ public class CloseAuto extends OpMode {
                 auton
         );
     }
+
+
 
     public SequentialCommandGroup shoot(){
         return new SequentialCommandGroup(
@@ -145,7 +148,6 @@ public class CloseAuto extends OpMode {
             double whileMovingStartHeading = CloseAutoPoseData.mirrorHeading(AutoConstants.startShootMoveHeading, color);
             double shootHeading = CloseAutoPoseData.mirrorHeading(AutoConstants.endShootMoveHeading, color);
 
-            follower.setStartingPose(startPose);
 
             ReverseOut = follower.pathBuilder()
                     .addPath(new BezierLine(startPose, shootingPose))

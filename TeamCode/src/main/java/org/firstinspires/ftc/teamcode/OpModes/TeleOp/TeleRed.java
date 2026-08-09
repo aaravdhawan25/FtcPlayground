@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -24,7 +25,7 @@ public class TeleRed extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MyRobot robot = new MyRobot(hardwareMap, telemetry, "RED");
+        MyRobot robot = new MyRobot(hardwareMap, telemetry, "RED", false);
         GamepadEx gp1 = new GamepadEx(gamepad1);
         GamepadEx gp2 = new GamepadEx(gamepad2);
 
@@ -46,6 +47,12 @@ public class TeleRed extends LinearOpMode {
         gp1.getGamepadButton(GamepadKeys.Button.X).whenReleased(
                 new PointToGoalCommand(robot, LLCam.CamState.STOP)
         );
+        gp1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new InstantCommand(robot::holding)
+        );
+        gp1.getGamepadButton(GamepadKeys.Button.A).whenReleased(
+                new InstantCommand(robot::stopHolding)
+        );
         gp2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new ParallelCommandGroup(
                         new ShooterCommand(robot, Shooter.ShooterState.MATH),
@@ -63,7 +70,6 @@ public class TeleRed extends LinearOpMode {
                 )
 
         );
-
         gp2.getGamepadButton(GamepadKeys.Button.X).whenReleased(
                 new TransferCancelCommand(robot)
 
@@ -79,6 +85,11 @@ public class TeleRed extends LinearOpMode {
 
         if(isStarted()){
             robot.follower.startTeleopDrive();
+        }
+
+        if (isStopRequested()){
+            robot.stop();
+            return;
         }
 
         while (opModeIsActive()){

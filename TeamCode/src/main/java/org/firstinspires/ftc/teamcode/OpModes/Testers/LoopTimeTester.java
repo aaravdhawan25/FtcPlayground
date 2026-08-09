@@ -1,4 +1,4 @@
-package opMode.TeleOp;
+package org.firstinspires.ftc.teamcode.OpModes.Testers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -15,7 +15,7 @@ public class LoopTimeTester extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         MyTelem.init(telemetry);
-        MyRobot robot = new MyRobot(hardwareMap);
+        MyRobot robot = new MyRobot(hardwareMap, telemetry, "NULL");
 
         waitForStart();
 

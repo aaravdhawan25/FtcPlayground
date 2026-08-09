@@ -20,7 +20,7 @@ public class MyTelem {
         telemetry.addLine(str);
     }
 
-    public static void addFormatedData(String str, String format, Object args){
+    public static void addData(String str, String format, Object args){
         telemetry.addData(str,format,args);
     }
 

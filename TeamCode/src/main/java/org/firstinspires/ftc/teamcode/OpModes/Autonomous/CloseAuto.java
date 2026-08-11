@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Robot.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Robot.Commands.ShooterCommand;
 import org.firstinspires.ftc.teamcode.Robot.Commands.TransferCancelCommand;
 import org.firstinspires.ftc.teamcode.Robot.Commands.TransferCommand;
-import org.firstinspires.ftc.teamcode.Robot.MyRobot;
+import org.firstinspires.ftc.teamcode.Robot.Robot;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Blocker;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Shooter;
@@ -30,7 +30,7 @@ import org.firstinspires.ftc.teamcode.Utils.Constants.AutoConstants;
 
 public class CloseAuto extends OpMode {
 
-    MyRobot robot;
+    Robot robot;
     String color;
     DashboardPoseTracker dashboardPoseTracker;
 
@@ -46,7 +46,7 @@ public class CloseAuto extends OpMode {
     @Override
     public void init() {
         dashboardPoseTracker = new DashboardPoseTracker(robot.follower.poseUpdater);
-        robot = new MyRobot(hardwareMap, telemetry, color, true);
+        robot = new Robot(hardwareMap, telemetry, color, true);
         paths = new CloseAutoPaths(robot.follower, color);
         CommandScheduler.getInstance().schedule(
                 new BlockerCommand(robot, Blocker.BlockerState.CLOSED)

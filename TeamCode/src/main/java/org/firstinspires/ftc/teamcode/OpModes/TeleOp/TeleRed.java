@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Robot.Commands.PointToGoalCommand;
 import org.firstinspires.ftc.teamcode.Robot.Commands.ShooterCommand;
 import org.firstinspires.ftc.teamcode.Robot.Commands.TransferCancelCommand;
 import org.firstinspires.ftc.teamcode.Robot.Commands.TransferCommand;
-import org.firstinspires.ftc.teamcode.Robot.MyRobot;
+import org.firstinspires.ftc.teamcode.Robot.Robot;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Blocker;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.LLCam;
@@ -25,7 +25,7 @@ public class TeleRed extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MyRobot robot = new MyRobot(hardwareMap, telemetry, "RED", false);
+        Robot robot = new Robot(hardwareMap, telemetry, "RED", false);
         GamepadEx gp1 = new GamepadEx(gamepad1);
         GamepadEx gp2 = new GamepadEx(gamepad2);
 

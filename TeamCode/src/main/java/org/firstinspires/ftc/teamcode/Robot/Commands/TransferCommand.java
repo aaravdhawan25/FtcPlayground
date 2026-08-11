@@ -5,12 +5,12 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
-import org.firstinspires.ftc.teamcode.Robot.MyRobot;
+import org.firstinspires.ftc.teamcode.Robot.Robot;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Blocker;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Intake;
 
 public class TransferCommand extends SequentialCommandGroup {
-    public TransferCommand(MyRobot robot){
+    public TransferCommand(Robot robot){
         addCommands(
                 new ParallelRaceGroup(
                         new WaitUntilCommand(() -> robot.shooter.atTargetSpeed()),

@@ -5,7 +5,6 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -25,7 +24,7 @@ import org.firstinspires.ftc.teamcode.Utils.MyTelem;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
-public class MyRobot {
+public class Robot {
 
     public List <LynxModule> hubs;
 
@@ -59,7 +58,7 @@ public class MyRobot {
 
 
 
-    public MyRobot(HardwareMap map, Telemetry tel, String color, boolean isAuto){
+    public Robot(HardwareMap map, Telemetry tel, String color, boolean isAuto){
         this.isAuto = isAuto;
         this.color = color;
         hubs = map.getAll(LynxModule.class);
@@ -122,7 +121,7 @@ public class MyRobot {
     public void stop(){
         Pose pose = follower.getPose();
         CommandScheduler.getInstance().reset();
-        MyRobot.currentPose = pose;
+        Robot.currentPose = pose;
     }
 
     public void update(){

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -46,6 +47,12 @@ public class TeleBlue extends LinearOpMode {
         gp1.getGamepadButton(GamepadKeys.Button.X).whenReleased(
                 new PointToGoalCommand(robot, LLCam.CamState.STOP)
         );
+        gp1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new InstantCommand(robot::holding)
+        );
+        gp1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new InstantCommand(robot::stopHolding)
+        );
         gp2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new ParallelCommandGroup(
                         new ShooterCommand(robot, Shooter.ShooterState.MATH),
@@ -63,7 +70,6 @@ public class TeleBlue extends LinearOpMode {
                 )
 
         );
-
         gp2.getGamepadButton(GamepadKeys.Button.X).whenReleased(
                 new TransferCancelCommand(robot)
 

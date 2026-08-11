@@ -47,10 +47,10 @@ public class TeleRed extends LinearOpMode {
         gp1.getGamepadButton(GamepadKeys.Button.X).whenReleased(
                 new PointToGoalCommand(robot, LLCam.CamState.STOP)
         );
-        gp1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+        gp1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new InstantCommand(robot::holding)
         );
-        gp1.getGamepadButton(GamepadKeys.Button.A).whenReleased(
+        gp1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new InstantCommand(robot::stopHolding)
         );
         gp2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
@@ -99,3 +99,5 @@ public class TeleRed extends LinearOpMode {
 
     }
 }
+
+

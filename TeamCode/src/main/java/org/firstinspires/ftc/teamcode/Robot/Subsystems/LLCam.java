@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Utils.Constants.CameraConstants;
 import org.firstinspires.ftc.teamcode.Utils.MyTelem;
+import org.opencv.core.Mat;
 
 public class LLCam implements Subsystem {
 
@@ -98,22 +99,25 @@ public class LLCam implements Subsystem {
 
         double tX = tag.tX;
         double tY = tag.tY;
-        double rotationPower = kP * tX;
+        double realAngle = Math.abs(tX);
+        boolean isLeft = tX < 0;
+//        double rotationPower = kP * tX;
 
         CameraConstants.isAligning = true;
-        rotationPower = Math.max(-CameraConstants.maxPower, Math.min(CameraConstants.maxPower, rotationPower));
-        CameraConstants.rotationalPower = rotationPower;
+//        rotationPower = Math.max(-CameraConstants.maxPower, Math.min(CameraConstants.maxPower, rotationPower));
+//        CameraConstants.rotationalPower = rotationPower;
 
         CameraConstants.isAligned = (Math.abs(tX) < CameraConstants.angleTolerance) ? true : false;
 
-        MyTelem.addData("x", tX);
+        MyTelem.addData("raw x", tX);
+        MyTelem.addData("real x", realAngle);
         MyTelem.addData("y",tY);
-        MyTelem.addData("power", rotationPower);
-        MyTelem.addData("CamkP", kP);
+        MyTelem.addData("Is Left:", isLeft);
         MyTelem.addData("Aligned Properly", CameraConstants.isAligned && CameraConstants.isAligning);
         MyTelem.addData("Math Camera", true);
 
-        follower.setTeleOpMovementVectors(0,0,rotationPower, true);
+//        follower.setTeleOpMovementVectors(0,0,rotationPower, true);
+        follower.turnDegrees(realAngle, isLeft);
 
         if (Math.abs(tX) < 0.5){
             CameraConstants.isAligning = false;

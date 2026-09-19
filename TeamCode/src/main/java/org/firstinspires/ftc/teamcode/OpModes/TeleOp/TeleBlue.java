@@ -45,7 +45,10 @@ public class TeleBlue extends LinearOpMode {
                 new PointToGoalCommand(robot, LLCam.CamState.ALIGN)
         );
         gp1.getGamepadButton(GamepadKeys.Button.X).whenReleased(
-                new PointToGoalCommand(robot, LLCam.CamState.STOP)
+                new ParallelCommandGroup(
+                        new PointToGoalCommand(robot, LLCam.CamState.STOP),
+                        new InstantCommand(robot::stopHolding)
+                )
         );
         gp1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new InstantCommand(robot::holding)
@@ -94,7 +97,7 @@ public class TeleBlue extends LinearOpMode {
 
         while (opModeIsActive()){
             robot.update();
-            robot.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
+            robot.follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
         }
 
     }

@@ -99,11 +99,6 @@ public class Robot {
 
     }
 
-    public void setTeleOpMovementVectors(double forward, double strafe, double turn, boolean robotCentric){
-        if (!CameraConstants.isAligning && !holding){
-            follower.setTeleOpMovementVectors(forward, strafe, turn, robotCentric);
-        }
-    }
 
     public void init(){
         for (LynxModule hub : hubs){
